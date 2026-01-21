@@ -1,0 +1,47 @@
+name: Build and Deploy to Container App
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-deploy.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Login to Container Registry
+        run: |
+          az acr login --name ${{ vars.ACR_NAME }}
+
+      - name: Build and push Docker image
+        run: |
+          cd src
+          az acr build --registry ${{ vars.ACR_NAME }} \
+            --image zavasecurityapp:${{ github.sha }} \
+            --image zavasecurityapp:latest \
+            --file Dockerfile .
+
+      - name: Deploy to Container App
+        run: |
+          az containerapp update \
+            --name ${{ vars.CONTAINER_APP_NAME }} \
+            --resource-group ${{ vars.RESOURCE_GROUP }} \
+            --image ${{ vars.ACR_URL }}/zavasecurityapp:${{ github.sha }}
+
+      - name: Logout from Azure
+        run: az logout

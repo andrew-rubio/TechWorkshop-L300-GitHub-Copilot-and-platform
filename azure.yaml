@@ -1,0 +1,8 @@
+# Azure Deployment Configuration
+
+name: ZavaStorefront
+location: eastus
+resourceGroup: ghcpazuredemo
+infra:
+  bicep: ./infra/main.bicep
+  parameters: ./infra/main.parameters.json
