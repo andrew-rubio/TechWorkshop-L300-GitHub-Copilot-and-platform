@@ -46,6 +46,9 @@ module containerApp 'containerApp.bicep' = {
     location: location
     logAnalyticsWorkspaceId: logAnalytics.outputs.logAnalyticsWorkspaceId
     logAnalyticsWorkspaceKey: logAnalytics.outputs.logAnalyticsWorkspaceKey
+    acrName: acrName
+    acrUsername: acr.outputs.acrUsername
+    acrPassword: acr.outputs.acrPassword
   }
   dependsOn: [
     logAnalytics
