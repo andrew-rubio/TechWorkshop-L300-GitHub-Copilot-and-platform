@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": { "value": "eastus" },
+    "storageAccountName": { "value": "zavasecuritydocs" },
+    "keyVaultName": { "value": "zavasecuritykv" },
+    "logicAppName": { "value": "zavasecurityincident" },
+    "acrName": { "value": "zavasecurityacr" },
+    "containerAppName": { "value": "zavasecurityapp" },
+    "logAnalyticsName": { "value": "zavasecuritylogs" }
+  }
+}
